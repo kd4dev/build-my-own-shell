@@ -5,7 +5,6 @@ const rl = readline.createInterface({
   output: process.stdout, // terminal pe output stream
 });
 
-
 //    Question turant print hota hai
 //    Callback TAB chalta hai jab terminal me ENTER dabta hai
 // rl.question("Enter your name: ", (name) => {
@@ -17,17 +16,20 @@ const rl = readline.createInterface({
 rl.setPrompt("$ ");
 rl.prompt(); // terminal me "cmd> " dikhane ke liye
 
-//    Har baar ENTER dabane pe ye chalega
-
 rl.on("line", (input) => {
   if (input === "exit") {
     rl.close(); // readline band
     return;
   }
-  console.log(`${input}: command not found`);
-
+  if(input.startsWith(`echo `)){
+    let a=input.split('echo ').join();
+    console.log(a[1]);
+  }
+  // console.log(`${input}: command not found`);
   // next input ke liye prompt dubara
+
   rl.prompt();
+
 });
 
 // 4️⃣ CLOSE EVENT
