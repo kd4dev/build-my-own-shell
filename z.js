@@ -1,5 +1,10 @@
 import readline from "readline";
 
+let st=new Set();
+st.add("echo");
+st.add("type");
+st.add("exit");
+
 const rl = readline.createInterface({
   input: process.stdin, // terminal se aane wala stream
   output: process.stdout, // terminal pe output stream
@@ -26,9 +31,16 @@ rl.on("line", (input) => {
     const a=input.slice(5);
     console.log(a);
   }
-  else{
-    console.log(`${input}: command not found`);
-  }
+  else if(input.startsWith(`type `)){
+    const a=input.slice(5);
+    if(st.has(a)){
+      console.log(`${a} is a shell builtin`)
+    }
+
+    }
+    else{
+      console.log(`${input}: command not found`);
+    }
   // next input ke liye prompt dubara
 
   rl.prompt();
