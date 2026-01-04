@@ -27,9 +27,14 @@ rl.on("line", (input) => {
     if (st.has(a)) {
       console.log(`${a} is a shell builtin`);
     }
-  } else {
+    else{
+      console.log(`${input}: command not found`);
+    }
+  }
+  else {
     console.log(`${input}: command not found`);
   }
 
   rl.prompt();
+
 });
