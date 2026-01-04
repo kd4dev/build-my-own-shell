@@ -23,7 +23,14 @@ rl.on("line", (input) => {
   }
   if(input.startsWith(`echo `)){
     let a=input.split('echo ').join();
-    console.log(a[1]);
+    let i=1;
+    let output="";
+    while(i){
+      output+=a[i];
+      output+=" ";
+      i++;
+    }
+    console.log(output);
   }
   // console.log(`${input}: command not found`);
   // next input ke liye prompt dubara
