@@ -32,6 +32,6 @@ rl.on("line", (input) => {
 
 // 4️⃣ CLOSE EVENT
 //    Ye TAB chalega jab rl.close() call hota hai
-rl.on("close", () => {
-  console.log("Program ended.");
-});
+// rl.on("close", () => {
+//   console.log("Program ended.");
+// });
