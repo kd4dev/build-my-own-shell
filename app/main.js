@@ -11,7 +11,7 @@ rl.question("$ ", (answer) => {
 });
 
 rl.question("$ ", (command) => {
-  console.log(`${command}:command not found`);
+  console.log(`${command}: command not found`);
   rl.close();
 });
 
