@@ -18,11 +18,6 @@ rl.on("line", (input) => {
     rl.close();
     return;
   }
-
-  if (input === "exit") {
-    rl.close(); // readline band
-    return;
-  }
   else if (input.startsWith(`echo `)) {
     const a = input.slice(5);
     console.log(a);
