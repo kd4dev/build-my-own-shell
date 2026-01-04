@@ -13,7 +13,8 @@ const rl = readline.createInterface({
 
 //   // prompt set kiya (CLI style)
 // });
-rl.setPrompt("$");
+
+rl.setPrompt("$ ");
 rl.prompt(); // terminal me "cmd> " dikhane ke liye
 
 //    Har baar ENTER dabane pe ye chalega
