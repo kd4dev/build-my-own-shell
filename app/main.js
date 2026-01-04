@@ -28,7 +28,7 @@ rl.on("line", (input) => {
       console.log(`${a} is a shell builtin`);
     }
     else{
-      console.log(`${input}: not found`);
+      console.log(`${a}: not found`);
     }
   }
   else {
