@@ -20,11 +20,11 @@ rl.prompt(); // terminal me "cmd> " dikhane ke liye
 //    Har baar ENTER dabane pe ye chalega
 
 rl.on("line", (input) => {
-  console.log(`${input}: command not found`);
   if (input === "exit") {
     rl.close(); // readline band
     return;
   }
+  console.log(`${input}: command not found`);
 
   // next input ke liye prompt dubara
   rl.prompt();
