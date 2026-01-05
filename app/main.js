@@ -30,6 +30,15 @@ rl.on("line", (input) => {
     else if(input === "pwd"){
         console.log(process.cwd());
     }
+
+    else if(input.startsWith("cd")){
+        const path=input.split(" ")[1];
+        let flag=fs.existsSync(path);
+        if(flag){
+            process.chdir(path);
+        }
+        else console.log(`cd: ${path} No such file or directory` );
+    }
     else if (input.startsWith("echo ")) {
         const a = input.slice(5);
         console.log(a);
