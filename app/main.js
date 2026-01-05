@@ -46,28 +46,34 @@ rl.on("line", (input) => {
         }
     }
 
-    else if (input.startsWith("echo ")) {
-        const a = input.slice(5);
-        if(a.includes('>')){
-
-            let content="";
-            let filePath="";
-            const idx=a.indexOf('>');
-
-            if(idx>0){
-                if(a[idx-1]==='1') content=a.slice(0,idx-1);
-                else content=a.slice(0,idx);
+   else if (input.startsWith("echo ")) {
+        const a = input.slice(5); 
+        const match = a.match(/1?>/);
+        if (match) {
+            const idx = match.index;
+            const operatorLength = match[0].length; 
+            let content = a.slice(0, idx).trim();
+            let filePath = a.slice(idx + operatorLength).trim();
+            if ((content.startsWith("'") && content.endsWith("'")) || 
+                (content.startsWith('"') && content.endsWith('"'))) {
+                content = content.slice(1, -1);
             }
-
-            filePath=a.slice(idx+1);
-
-
-            if(filePath!=="")
-                fs.writeFileSync(filePath.trim(), content.trim());
-            else console.log(a);
+            if (filePath.length > 0) {
+                fs.writeFileSync(filePath, content + "\n");
+            } 
+            else {
+                console.log(content);
+            }
         }
-        else console.log(a);
-    } 
+         else {
+            let content = a.trim();
+            if ((content.startsWith("'") && content.endsWith("'")) || 
+                (content.startsWith('"') && content.endsWith('"'))) {
+                content = content.slice(1, -1);
+            }
+            console.log(content);
+        }
+    }
 
     else if (input.startsWith("type ")) {
         const command = input.slice(5);
