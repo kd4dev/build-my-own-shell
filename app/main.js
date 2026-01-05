@@ -57,24 +57,28 @@ rl.on("line", (input) => {
 
     } 
 
-    else{
-        let found=false;
-        const command=input.split(" ")[0];
+    else {
+
+        const parts = input.trim().split(" ");
+        const command = parts[0];
+        const args = parts.slice(1);
+        let foundPath = null;
+
         for (const folder of folders) { 
             const fullPath = path.join(folder, command);
             try {
-                fs.accessSync(fullPath, fs.constants.X_OK);
-                const output = execSync(input, { encoding: 'utf-8' });
-                console.log(output.toString());
-                found=true;
-                break; 
-            }
-             catch (err) {
-                console.log(err);
-             }
+               fs.accessSync(fullPath, fs.constants.X_OK);
+               foundPath = fullPath; 
+               break; 
+            } 
+            catch (err) {}
         }
-        if(!found) console.log(`${input}: command not found`);
-    } 
+
+        if (foundPath) {
+            const result = spawnSync(command, args, { stdio: 'inherit' });   
+        }
+        else console.log(`${input}: command not found`);
+    }
 
     rl.prompt();
 
