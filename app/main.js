@@ -9,6 +9,7 @@ let st = new Set();
 st.add("echo");
 st.add("exit");
 st.add("type"); 
+st.add("type"); 
 
 
 const rl = readline.createInterface({
