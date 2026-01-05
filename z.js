@@ -1,62 +1,70 @@
+import readline from "readline";
 import path from "path";
+import fs from "fs";
 
-// import readline from "readline";
-
-// let st=new Set();
-// st.add("echo");
-// st.add("type");
-// st.add("exit");
-
-// const rl = readline.createInterface({
-//   input: process.stdin, // terminal se aane wala stream
-//   output: process.stdout, // terminal pe output stream
-// });
-
-// //    Question turant print hota hai
-// //    Callback TAB chalta hai jab terminal me ENTER dabta hai
-// // rl.question("Enter your name: ", (name) => {
-// //   console.log("Hello", name);
-
-// //   // prompt set kiya (CLI style)
-// // });
-
-// rl.setPrompt("$ ");
-// rl.prompt(); // terminal me "cmd> " dikhane ke liye
-
-// rl.on("line", (input) => {
-
-//   if (input === "exit") {
-//     rl.close(); // readline band
-//     return;
-//   }
-//   else if(input.startsWith(`echo `)){
-//     const a=input.slice(5);
-//     console.log(a);
-//   }
-//   else if(input.startsWith(`type `)){
-//     const a=input.slice(5);
-//     if(st.has(a)){
-//       console.log(`${a} is a shell builtin`)
-//     }
-
-//     }
-//     else{
-//       console.log(`${input}: command not found`);
-//     }
-//   // next input ke liye prompt dubara
-
-//   rl.prompt();
-
-// });
-
-// // 4️⃣ CLOSE EVENT
-// //    Ye TAB chalega jab rl.close() call hota hai
-// // rl.on("close", () => {
-// //   console.log("Program ended.");
-// // });  
-
+let st = new Set();
+st.add("echo");
+st.add("exit");
+st.add("type"); // 1. Isko wapas add kar, ye zaroori hai
 
 const folders = process.env.PATH.split(path.delimiter);
 
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
 
-console.log(folders)
+rl.setPrompt("$ ");
+rl.prompt();
+
+rl.on("line", (input) => {
+    if (input === "exit") {
+        rl.close();
+        return; // Return zaroor lagana taki code neeche na jaye
+    } 
+    // .trim() use kar taki extra spaces handle ho jayein
+    else if (input.startsWith("echo ")) {
+        const a = input.slice(5);
+        console.log(a);
+    } 
+    else if (input.startsWith("type ")) {
+        const command = input.slice(5);
+
+        if (st.has(command)) {
+            console.log(`${command} is a shell builtin`);
+        } else {
+            // Logic start
+            let found = false; // Flag to track agar mil gaya
+
+            for (const folder of folders) { // for-of loop easy padta hai
+                
+                // 2. Sahi tarika path banane ka (Variables use kar, string nahi)
+                const fullPath = path.join(folder, command);
+
+                try {
+                    // 3. Synchronous check use kar (accessSync)
+                    // X_OK check karta hai ki executable hai ya nahi
+                    fs.accessSync(fullPath, fs.constants.X_OK);
+                    
+                    // Agar yahan tak code aaya, matlab file mil gayi aur error nahi aaya
+                    console.log(`${command} is ${fullPath}`);
+                    found = true;
+                    break; // Loop rok de, mil gaya maal!
+                } catch (err) {
+                    // Agar error aaya (file nahi hai ya permission nahi hai), 
+                    // toh ignore kar aur loop chalne de next folder ke liye
+                }
+            }
+
+            // Loop khatam hone ke baad check kar
+            if (!found) {
+                console.log(`${command}: not found`);
+            }
+        }
+    } else {
+        // Ye "run" karne wala part baad mein aayega, abhi ke liye not found thik he
+        console.log(`${input}: command not found`);
+    }
+
+    rl.prompt();
+});
