@@ -45,9 +45,24 @@ rl.on("line", (input) => {
             else console.log(`cd: ${path}: No such file or directory` );
         }
     }
+
     else if (input.startsWith("echo ")) {
         const a = input.slice(5);
-        console.log(a);
+        if(a.includes(' > ')){
+            let content="";
+            let filePath="";
+            let i;
+            for(i=0;i<a.length;i++){
+                if(a[i]=='>') break;
+                content+=a[i];
+            }
+            i++
+            for(i;i<a.length;i++){
+                filePath+=a[i];
+            }
+            fs.writeFileSync(filePath.trim(), content.trim());
+        }
+        else console.log(a);
     } 
 
     else if (input.startsWith("type ")) {
