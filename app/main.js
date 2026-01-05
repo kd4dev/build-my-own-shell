@@ -48,19 +48,23 @@ rl.on("line", (input) => {
 
     else if (input.startsWith("echo ")) {
         const a = input.slice(5);
-        if(a.includes(' > ')){
+        if(a.includes('>')){
+
             let content="";
             let filePath="";
-            let i;
-            for(i=0;i<a.length;i++){
-                if(a[i]=='>') break;
-                content+=a[i];
+            const idx=a.indexOf('>');
+
+            if(idx>0){
+                if(a[idx-1]==='1') content=a.slice(0,idx-1);
+                else content=a.slice(0,idx);
             }
-            i++
-            for(i;i<a.length;i++){
-                filePath+=a[i];
-            }
-            fs.writeFileSync(filePath.trim(), content.trim());
+
+            filePath=a.slice(idx+1);
+
+
+            if(filePath!=="")
+                fs.writeFileSync(filePath.trim(), content.trim());
+            else console.log(a);
         }
         else console.log(a);
     } 
