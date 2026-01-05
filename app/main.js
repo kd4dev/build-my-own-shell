@@ -1,7 +1,7 @@
 import readline from "readline";
 import path from "path";
 import fs from "fs";
-import { execFileSync } from "child_process"
+import { execSync } from "child_process"
 
 const folders = process.env.PATH.split(path.delimiter);
 let st = new Set();
@@ -58,8 +58,19 @@ rl.on("line", (input) => {
     } 
 
     else{
-         if(){}
-         else console.log(`${input}: command not found`);
+        let found=false;
+        for (const folder of folders) { 
+            const fullPath = path.join(folder, input);
+            try {
+                fs.accessSync(fullPath, fs.constants.X_OK);
+                const output = execSync(input, { encoding: 'utf-8' });
+                console.log(output.toString());
+                found=true;
+                break; 
+            }
+             catch (err) {}
+        }
+        if(!found) console.log(`${input}: command not found`);
     } 
 
     rl.prompt();
