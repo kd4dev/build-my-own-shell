@@ -26,6 +26,9 @@ rl.on("line", (input) => {
         return; 
     } 
 
+    else if(input === "pwd"){
+        console.log(process.cwd());
+    }
     else if (input.startsWith("echo ")) {
         const a = input.slice(5);
         console.log(a);
