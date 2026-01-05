@@ -36,13 +36,14 @@ rl.on("line", (input) => {
         const path=input.split(" ")[1];
         if(path==="~"){
             process.chdir(home);
-            return;
         }
-        let flag=fs.existsSync(path);
-        if(flag){
-            process.chdir(path);
+        else{
+            let flag=fs.existsSync(path);
+            if(flag){
+                process.chdir(path);
+            }
+            else console.log(`cd: ${path}: No such file or directory` );
         }
-        else console.log(`cd: ${path}: No such file or directory` );
     }
     else if (input.startsWith("echo ")) {
         const a = input.slice(5);
