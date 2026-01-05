@@ -36,6 +36,7 @@ rl.on("line", (input) => {
         const path=input.split(" ")[1];
         if(path==="~"){
             process.chdir(home);
+            return;
         }
         let flag=fs.existsSync(path);
         if(flag){
