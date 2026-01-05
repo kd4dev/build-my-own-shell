@@ -1,7 +1,7 @@
 import readline from "readline";
 import path from "path";
 import fs from "fs";
-import { execSync } from "child_process"
+import { execSync,spawnSync } from "child_process"
 
 const folders = process.env.PATH.split(path.delimiter);
 let st = new Set();
@@ -74,7 +74,7 @@ rl.on("line", (input) => {
         }
         if(foundPath) {
             const output = execSync(input, { encoding: 'utf-8' });
-            console.log(output.toString());
+            process.stdout.write(output.toString());
         }
         else console.log(`${input}: command not found`);
     } 
