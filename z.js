@@ -139,11 +139,11 @@ rl.on("line", (input) => {
         for (const folder of folders) { 
             const fullPath = path.join(folder, command);
             try {
-                fs.accessSync(fullPath, fs.constants.X_OK);
-                const output = execSync(input, { encoding: 'utf-8' });
-                console.log(output.toString());
-                found=true;
-                break; 
+               fs.accessSync(fullPath, fs.constants.X_OK);
+               const output = execSync(input, { encoding: 'utf-8' });
+               process.stdout.write(output.toString());  // ye new line nahi deta output me signature new line add kr rha he khud se
+               found=true;
+               break; 
             }
              catch (err) {}
         }
