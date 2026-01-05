@@ -101,27 +101,70 @@ rl.on("line", (input) => {
 
     } 
 
-    else{
-        const parts = input.trim().split(" ");
-        const command = parts[0];
-        const args = parts.slice(1);
-        let foundPath = null;
 
-        for (const folder of folders) { 
-            const fullPath = path.join(folder, command);
-            try {
-                fs.accessSync(fullPath, fs.constants.X_OK);
-                foundPath=fullPath;
-                break; 
-            }
-             catch (err) {}
+
+else {
+
+    const match = input.match(/1?>/); 
+
+    let commandToRun, args;
+    let stdoutTarget = 'inherit'; 
+    let fileDescriptor = null;    
+
+    if (match) {
+
+        const idx = match.index;
+        const operatorLen = match[0].length; 
+
+        const cmdPart = input.slice(0, idx).trim();
+        const filePart = input.slice(idx + operatorLen).trim();
+
+        const parts = cmdPart.split(" ");
+        commandToRun = parts[0];
+        args = parts.slice(1);
+
+        try {
+
+            fileDescriptor = fs.openSync(filePart, 'w');
+            stdoutTarget = fileDescriptor; 
         }
-        if(foundPath) {
-            const output = execSync(input, { encoding: 'utf-8' });
-            process.stdout.write(output.toString());
+        catch (e) {
+            console.log("Error opening file");
+            rl.prompt();
+            return;
         }
-        else console.log(`${input}: command not found`);
-    } 
+
+    }
+     else {
+
+        const parts = input.trim().split(" ");
+        commandToRun = parts[0];
+        args = parts.slice(1);
+    }
+
+    let foundPath = null;
+    for (const folder of folders) { 
+        const fullPath = path.join(folder, commandToRun);
+        try {
+            fs.accessSync(fullPath, fs.constants.X_OK);
+            foundPath = fullPath;
+            break; 
+        } catch (err) {}
+    }
+
+    if (foundPath) {
+        spawnSync(commandToRun, args, { 
+            stdio: [process.stdin, stdoutTarget, process.stderr] 
+        });
+    }
+    else {
+        console.log(`${commandToRun}: command not found`);
+    }
+
+    if (fileDescriptor) {
+        fs.closeSync(fileDescriptor);
+    }
+}
 
     rl.prompt();
 
