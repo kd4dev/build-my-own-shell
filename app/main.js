@@ -59,14 +59,18 @@ rl.on("line", (input) => {
 
     else{
         let found=false;
-        try {
-            fs.accessSync(fullPath, fs.constants.X_OK);
-            const output = execSync(input, { encoding: 'utf-8' });
-            console.log(output.toString());
-            found=true;
+        const command=input.split(" ")[0];
+        for (const folder of folders) { 
+            const fullPath = path.join(folder, command);
+            try {
+                fs.accessSync(fullPath, fs.constants.X_OK);
+                const output = execSync(input, { encoding: 'utf-8' });
+                console.log(output.toString());
+                found=true;
+                break; 
+            }
+             catch (err) {}
         }
-        catch (err) {}
-
         if(!found) console.log(`${input}: command not found`);
     } 
 
