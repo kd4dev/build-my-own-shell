@@ -21,7 +21,7 @@ rl.prompt();
 
 rl.on("line", (input) => {
 
-    if (input === "exit") {
+    if (input === "exit") { 
         rl.close();
         return; 
     } 
