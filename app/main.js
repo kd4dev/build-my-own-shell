@@ -4,6 +4,7 @@ import fs from "fs";
 import { execSync,spawnSync } from "child_process"
 
 const folders = process.env.PATH.split(path.delimiter);
+const home = process.env.HOME;
 let st = new Set();
 
 st.add("echo");
@@ -33,6 +34,9 @@ rl.on("line", (input) => {
 
     else if(input.startsWith("cd")){
         const path=input.split(" ")[1];
+        if(path==="~"){
+            process.chdir(home);
+        }
         let flag=fs.existsSync(path);
         if(flag){
             process.chdir(path);
