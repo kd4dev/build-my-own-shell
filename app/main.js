@@ -37,7 +37,7 @@ rl.on("line", (input) => {
         if(flag){
             process.chdir(path);
         }
-        else console.log(`cd: ${path} No such file or directory` );
+        else console.log(`cd: ${path}: No such file or directory` );
     }
     else if (input.startsWith("echo ")) {
         const a = input.slice(5);
