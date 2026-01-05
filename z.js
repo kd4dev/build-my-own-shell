@@ -1,54 +1,62 @@
-import readline from "readline";
+import path from "path";
 
-let st=new Set();
-st.add("echo");
-st.add("type");
-st.add("exit");
+// import readline from "readline";
 
-const rl = readline.createInterface({
-  input: process.stdin, // terminal se aane wala stream
-  output: process.stdout, // terminal pe output stream
-});
+// let st=new Set();
+// st.add("echo");
+// st.add("type");
+// st.add("exit");
 
-//    Question turant print hota hai
-//    Callback TAB chalta hai jab terminal me ENTER dabta hai
-// rl.question("Enter your name: ", (name) => {
-//   console.log("Hello", name);
-
-//   // prompt set kiya (CLI style)
+// const rl = readline.createInterface({
+//   input: process.stdin, // terminal se aane wala stream
+//   output: process.stdout, // terminal pe output stream
 // });
 
-rl.setPrompt("$ ");
-rl.prompt(); // terminal me "cmd> " dikhane ke liye
+// //    Question turant print hota hai
+// //    Callback TAB chalta hai jab terminal me ENTER dabta hai
+// // rl.question("Enter your name: ", (name) => {
+// //   console.log("Hello", name);
 
-rl.on("line", (input) => {
+// //   // prompt set kiya (CLI style)
+// // });
 
-  if (input === "exit") {
-    rl.close(); // readline band
-    return;
-  }
-  else if(input.startsWith(`echo `)){
-    const a=input.slice(5);
-    console.log(a);
-  }
-  else if(input.startsWith(`type `)){
-    const a=input.slice(5);
-    if(st.has(a)){
-      console.log(`${a} is a shell builtin`)
-    }
+// rl.setPrompt("$ ");
+// rl.prompt(); // terminal me "cmd> " dikhane ke liye
 
-    }
-    else{
-      console.log(`${input}: command not found`);
-    }
-  // next input ke liye prompt dubara
+// rl.on("line", (input) => {
 
-  rl.prompt();
+//   if (input === "exit") {
+//     rl.close(); // readline band
+//     return;
+//   }
+//   else if(input.startsWith(`echo `)){
+//     const a=input.slice(5);
+//     console.log(a);
+//   }
+//   else if(input.startsWith(`type `)){
+//     const a=input.slice(5);
+//     if(st.has(a)){
+//       console.log(`${a} is a shell builtin`)
+//     }
 
-});
+//     }
+//     else{
+//       console.log(`${input}: command not found`);
+//     }
+//   // next input ke liye prompt dubara
 
-// 4️⃣ CLOSE EVENT
-//    Ye TAB chalega jab rl.close() call hota hai
-// rl.on("close", () => {
-//   console.log("Program ended.");
-// });  
+//   rl.prompt();
+
+// });
+
+// // 4️⃣ CLOSE EVENT
+// //    Ye TAB chalega jab rl.close() call hota hai
+// // rl.on("close", () => {
+// //   console.log("Program ended.");
+// // });  
+
+
+const folders = process.env.PATH.split(path.delimiter);
+
+
+console.log(folders)
