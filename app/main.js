@@ -69,7 +69,9 @@ rl.on("line", (input) => {
                 found=true;
                 break; 
             }
-             catch (err) {}
+             catch (err) {
+                console.log(err);
+             }
         }
         if(!found) console.log(`${input}: command not found`);
     } 
