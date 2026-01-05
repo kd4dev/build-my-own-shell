@@ -70,11 +70,11 @@ rl.on("line", (input) => {
                 foundPath=fullPath;
                 break; 
             }
-             catch () {}
+             catch (err) {}
         }
         if(foundPath) {
             const output = execSync(input, { encoding: 'utf-8' });
-            console.log(output);
+            console.log(output.toString());
         }
         else console.log(`${input}: command not found`);
     } 
