@@ -1,6 +1,7 @@
 import readline from "readline";
 import path from "path";
 import fs from "fs";
+import { execFileSync } from "child_process"
 
 const folders = process.env.PATH.split(path.delimiter);
 let st = new Set();
@@ -55,8 +56,11 @@ rl.on("line", (input) => {
         }
 
     } 
-    
-    else console.log(`${input}: command not found`);
+
+    else{
+         if(){}
+         else console.log(`${input}: command not found`);
+    } 
 
     rl.prompt();
 
